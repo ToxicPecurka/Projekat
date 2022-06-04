@@ -4,13 +4,16 @@
 #include <time.h>
 
 char tabla[3][3];
-const char IGRAC = 'X';
-const char COMPUTER = 'O';
+const char IGRAC = 'O';
+const char COMPUTER = 'x';
 
 void reset_tabla();
 void print_tabla();
 int slobodna_mesta();
 void igracev_potez();
+void computer_potez();
+char check_Pobednik();
+void print_pobednik(char);
 int main()
 {
    char pobednik = ' ';
@@ -21,6 +24,17 @@ int main()
       print_tabla();
 
       igracev_potez();
+      pobednik = check_Pobednik();
+      if(pobednik != ' ' || slobodna_mesta() == 0)
+      {
+         break;
+      }
+      computer_potez();
+      pobednik = check_Pobednik();
+      if(pobednik != ' ' || slobodna_mesta() == 0)
+      {
+         break;
+      }
    }
    
 
@@ -70,18 +84,12 @@ void igracev_potez()
 
    do 
    {
-      p:
       printf("unesi vrstu (1 - 3):");
       scanf("%d",&vrsta);
       vrsta--;
       printf("unesi kolonu (1 - 3):");
       scanf("%d",&kolona);
       kolona--;
-      if(vrsta !=1,2,3 && kolona !=1,2,3 )
-      {
-         printf("pogresan unos\n");
-         break;
-      }
       if(tabla[vrsta][kolona] != ' ')
       {
          printf("pogresan korak\n");
@@ -92,4 +100,69 @@ void igracev_potez()
          break;
       }
    }while(tabla[vrsta][kolona] != ' ');
+}
+void computer_potez()
+{
+   srand(time(0));
+   int x;
+   int y;
+
+   if(slobodna_mesta() > 0)
+   {
+      do
+      {
+         x = rand() % 3;
+         y = rand() % 3;
+      }while(tabla[x][y] != ' ');
+      
+      tabla[x][y] = COMPUTER;
+   }
+   else
+   {
+      print_pobednik(' ');
+   }
+}
+char check_Pobednik()
+{
+   //ispitivanje redova
+   for(int i = 0; i < 3; i++ )
+   {
+      if(tabla[i][0] == tabla[i][1] && tabla[i][0] == tabla[i][2])
+      {
+         return tabla[i][0];
+      }
+   }
+   //ispitivanje kolona
+    for(int i = 0; i < 3; i++ )
+   {
+      if(tabla[0][i] == tabla[1][i] && tabla[0][i] == tabla[2][i])
+      {
+         return tabla[0][i];
+      }
+   }
+   //ispitivanje dijagonala
+   if(tabla[0][0] == tabla[1][1] && tabla[0][0] == tabla[2][2])
+      {
+         return tabla[0][0];
+      }
+   if(tabla[0][2] == tabla[1][1] && tabla[0][2] == tabla[2][0])
+      {
+         return tabla[0][2];
+      }
+   return ' ';
+}
+void print_pobednik(char pobednik)
+{
+   if(pobednik == IGRAC)
+   {
+      printf(" POBEDIO SI ! ");
+   }
+   else if (pobednik == COMPUTER)
+   {
+      printf(" IZGUBIO SI ! ");
+   }
+   else
+   {
+      printf(" NEREŠENO JE ! ");
+   }
 }
