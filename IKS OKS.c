@@ -14,7 +14,7 @@ void igracev_potez();
 void computer_potez();
 char check_Pobednik();
 void print_pobednik(char);
-int main()
+void main()
 {
    char pobednik = ' ';
 
@@ -36,9 +36,9 @@ int main()
          break;
       }
    }
-   
 
-   return 0;
+   print_tabla();
+   print_pobednik(pobednik);
 }
 void reset_tabla()
 {
@@ -79,9 +79,8 @@ int slobodna_mesta()
 }
 void igracev_potez()
 {
-   int vrsta;
-   int kolona;
-
+   int vrsta = 0;
+   int kolona = 0;
    do 
    {
       printf("unesi vrstu (1 - 3):");
@@ -90,16 +89,26 @@ void igracev_potez()
       printf("unesi kolonu (1 - 3):");
       scanf("%d",&kolona);
       kolona--;
-      if(tabla[vrsta][kolona] != ' ')
+      if((vrsta < 1 || vrsta > 3) && (kolona < 1 || kolona > 3))
       {
-         printf("pogresan korak\n");
+            if(tabla[vrsta][kolona] != ' ')
+            {
+               printf("pogresan korak\n");
+            }
+            else
+            {
+               printf("ispravan unos\n");            
+               tabla[vrsta][kolona] = IGRAC;
+               break; 
+            }
       }
       else
       {
-         tabla[vrsta][kolona] = IGRAC;
-         break;
+            printf("pogresan unos\n");
+            break;
       }
-   }while(tabla[vrsta][kolona] != ' ');
+   }
+   while(tabla[vrsta][kolona] != ' ');
 }
 void computer_potez()
 {
