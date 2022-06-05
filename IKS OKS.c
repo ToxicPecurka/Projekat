@@ -4,8 +4,8 @@
 #include <time.h>
 
 char tabla[3][3];
-const char IGRAC = 'O';
-const char COMPUTER = 'x';
+char IGRAC;
+char COMPUTER;  
 
 void reset_tabla();
 void print_tabla();
@@ -16,26 +16,71 @@ char check_Pobednik();
 void print_pobednik(char);
 void main()
 {
-   char pobednik = ' ';
-
-   reset_tabla();
-   while(pobednik == ' ' && slobodna_mesta() != 0)
+   int izbor;
+   printf("Koji znak zelis (X/O)?\n");
+   scanf(" %c",&IGRAC);
+   if(IGRAC == 'O')
    {
-      print_tabla();
+      COMPUTER = 'X';
+   }
+   else 
+      COMPUTER = 'O';
 
-      igracev_potez();
-      pobednik = check_Pobednik();
-      if(pobednik != ' ' || slobodna_mesta() == 0)
+   char pobednik = ' ';
+   printf("ako hoces igrati prvi unesi (1/0)?\n");
+   scanf("%d",&izbor);
+   reset_tabla();
+   if(izbor==1)
+   {
+         while(pobednik == ' ' && slobodna_mesta() != 0)
+         {
+            igracev_potez();
+            print_tabla();
+            pobednik = check_Pobednik();
+            if(pobednik != ' ' || slobodna_mesta() == 0)
+            {
+               break;
+            }
+            computer_potez();
+            pobednik = check_Pobednik();
+            if(pobednik != ' ' || slobodna_mesta() == 0)
+            {
+               break;
+            }
+            computer_potez();
+            pobednik = check_Pobednik();
+            if(pobednik != ' ' || slobodna_mesta() == 0)
+            {
+               break;
+            }
+            igracev_potez();
+            pobednik = check_Pobednik();
+            if(pobednik != ' ' || slobodna_mesta() == 0)
+            {
+               break;
+            }
+         }
+   }
+   else
+   {
+      while(pobednik == ' ' && slobodna_mesta() != 0)
       {
-         break;
-      }
-      computer_potez();
-      pobednik = check_Pobednik();
-      if(pobednik != ' ' || slobodna_mesta() == 0)
-      {
-         break;
+         computer_potez();
+         print_tabla();
+         pobednik = check_Pobednik();
+         if(pobednik != ' ' || slobodna_mesta() == 0)
+         {
+            break;
+         }
+         igracev_potez();
+         pobednik = check_Pobednik();
+         if(pobednik != ' ' || slobodna_mesta() == 0)
+         {
+            break;
+         }
       }
    }
+   
 
    print_tabla();
    print_pobednik(pobednik);
@@ -58,6 +103,7 @@ void print_tabla()
    printf(" %c | %c | %c ", tabla[1][0], tabla[1][1], tabla[1][2]);
    printf("\n---|---|---\n");
    printf(" %c | %c | %c ", tabla[2][0], tabla[2][1], tabla[2][2]);
+   printf("\n");
    printf("\n");
 }
 int slobodna_mesta()
@@ -83,29 +129,30 @@ void igracev_potez()
    int kolona = 0;
    do 
    {
+      p:
+      vrsta=0;
+      kolona=0;
       printf("unesi vrstu (1 - 3):");
       scanf("%d",&vrsta);
       vrsta--;
       printf("unesi kolonu (1 - 3):");
       scanf("%d",&kolona);
       kolona--;
-      if((vrsta < 1 || vrsta > 3) && (kolona < 1 || kolona > 3))
+      if((vrsta >= 0 && vrsta <= 2) && (kolona >= 0 && kolona <= 2))
       {
             if(tabla[vrsta][kolona] != ' ')
             {
                printf("pogresan korak\n");
+               goto p;
             }
-            else
-            {
-               printf("ispravan unos\n");            
-               tabla[vrsta][kolona] = IGRAC;
-               break; 
-            }
+            printf("ispravan unos\n");            
+            tabla[vrsta][kolona] = IGRAC;
+            break; 
       }
       else
       {
             printf("pogresan unos\n");
-            break;
+            goto p;
       }
    }
    while(tabla[vrsta][kolona] != ' ');
@@ -172,6 +219,6 @@ void print_pobednik(char pobednik)
    }
    else
    {
-      printf(" NEREŠENO JE ! ");
+      printf(" NERESENO JE ! ");
    }
 }
