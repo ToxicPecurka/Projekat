@@ -35,6 +35,12 @@ void main()
          while(pobednik == ' ' && slobodna_mesta() != 0)
          {
             igracev_potez();
+            pobednik = check_Pobednik();
+            if(pobednik != ' ' || slobodna_mesta() == 0)
+            {
+               break;
+            }
+            computer_potez();
             print_tabla();
             pobednik = check_Pobednik();
             if(pobednik != ' ' || slobodna_mesta() == 0)
@@ -47,13 +53,8 @@ void main()
             {
                break;
             }
-            computer_potez();
-            pobednik = check_Pobednik();
-            if(pobednik != ' ' || slobodna_mesta() == 0)
-            {
-               break;
-            }
             igracev_potez();
+            print_tabla();
             pobednik = check_Pobednik();
             if(pobednik != ' ' || slobodna_mesta() == 0)
             {
@@ -73,6 +74,7 @@ void main()
             break;
          }
          igracev_potez();
+         print_tabla();
          pobednik = check_Pobednik();
          if(pobednik != ' ' || slobodna_mesta() == 0)
          {
@@ -144,8 +146,7 @@ void igracev_potez()
             {
                printf("pogresan korak\n");
                goto p;
-            }
-            printf("ispravan unos\n");            
+            }            
             tabla[vrsta][kolona] = IGRAC;
             break; 
       }
