@@ -181,8 +181,9 @@ void computer_potez()
 }
 char check_Pobednik()
 {
+   int i;
    //ispitivanje redova
-   for(int i = 0; i < 3; i++ )
+   for( i = 0; i < 3; i++ )
    {
       if(tabla[i][0] == tabla[i][1] && tabla[i][0] == tabla[i][2])
       {
@@ -190,7 +191,7 @@ char check_Pobednik()
       }
    }
    //ispitivanje kolona
-    for(int i = 0; i < 3; i++ )
+    for( i = 0; i < 3; i++ )
    {
       if(tabla[0][i] == tabla[1][i] && tabla[0][i] == tabla[2][i])
       {
